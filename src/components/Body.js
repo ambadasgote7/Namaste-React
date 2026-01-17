@@ -3,6 +3,7 @@ import { resList } from "../utils/mockData";
 import { useEffect, useState } from "react";
 import { SWIGGY_API } from "../utils/constants";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [listOfRestaurant, setListOfRestaurant] = useState([]);
@@ -13,7 +14,7 @@ const Body = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+     const fetchData = async () => {
       const response = await fetch(SWIGGY_API, {
       headers: {
         "User-Agent": "Mozilla/5.0",
@@ -29,22 +30,23 @@ const Body = () => {
       );
 };
 
-// const fetchData = async () => {
-//   const response = await fetch(
-//     "https://corsproxy.io/?" + encodeURIComponent(SWIGGY_API)
-//   );
+  
+//   const fetchData = async () => {
+//       const response = await fetch(
+//         "https://corsproxy.io/?" + encodeURIComponent(SWIGGY_API)
+//       );
+//       const json = await response.json();
 
-//   const json = await response.json();
-//   setListOfRestaurant(
-//     json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
-//   );
+//       console.log(json);
+
+//       setListOfRestaurant(
+//         json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
+//       );
+//       setFilteredRestaurant(
+//         json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
+//       );
 // };
 
-
-
-//   if (listOfRestaurant.length === 0) {
-//     return <Shimmer/>
-//   }
 
   return listOfRestaurant.length === 0 ? (<Shimmer/>) : (
     <div className="body">
@@ -76,10 +78,12 @@ const Body = () => {
 
       <div className="res-container">
         {filteredRestaurant.map((restaurant) => (
-          <RestaurantCard
-            key={restaurant?.info?.id}
+          <Link  key={restaurant?.info?.id} to={"/restaurant/" + restaurant?.info?.id}>
+            <RestaurantCard
             resData={restaurant}
           />
+          </Link>
+          
         ))}
       </div>
     </div>
