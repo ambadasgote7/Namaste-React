@@ -1,56 +1,40 @@
-import { useEffect, useState } from "react";
-import { SWIGGY_API, SWIGGY_MENU_API } from "../utils/constants";
 import Shimmer from "./Shimmer";
 import { Link, useParams } from "react-router-dom";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
 
-    const [resInfo, setResInfo] = useState(null);
+   
     const {resId} = useParams();
 
-    useEffect(() => {
-        fetchMenu();
-    }, []);
-
-    const fetchMenu = async () => {
-        const data = await fetch(SWIGGY_MENU_API + resId);
-        const json = await data.json();
-        setResInfo(json.data);
-    }
+    const resInfo = useRestaurantMenu(resId);
 
     if (resInfo === null) return (<Shimmer />) ;
 
     const restaurantInfo =
-  resInfo?.cards?.find(
-    c => c?.card?.card?.info
-  )?.card?.card?.info;
+        resInfo?.cards?.find(
+            c => c?.card?.card?.info
+    )?.card?.card?.info;
 
-const {
-  name,
-  cuisines,
-  costForTwoMessage,
-  avgRating,
-  totalRatingsString,
-  locality
-} = restaurantInfo || {};
+    const {
+        name,
+        cuisines,
+        costForTwoMessage,
+        avgRating,
+        totalRatingsString,
+        locality
+    } = restaurantInfo || {};
 
   const { itemCards } =
-  resInfo
-    ?.cards
-    ?.find(c => c.groupedCard)
-    ?.groupedCard
-    ?.cardGroupMap
-    ?.REGULAR
-    ?.cards?.[1]
-    ?.card
-    ?.card || {};
-
-
-    console.log(itemCards);
-
-
-
-
+    resInfo
+        ?.cards
+        ?.find(c => c.groupedCard)
+        ?.groupedCard
+        ?.cardGroupMap
+        ?.REGULAR
+        ?.cards?.[1]
+        ?.card
+        ?.card || {};
     
     return (
         <div className="menu">

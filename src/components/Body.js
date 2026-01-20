@@ -1,9 +1,9 @@
 import RestaurantCard from "./RestaurantCard";
-import { resList } from "../utils/mockData";
 import { useEffect, useState } from "react";
 import { SWIGGY_API } from "../utils/constants";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
   const [listOfRestaurant, setListOfRestaurant] = useState([]);
@@ -30,22 +30,15 @@ const Body = () => {
       );
 };
 
-  
-//   const fetchData = async () => {
-//       const response = await fetch(
-//         "https://corsproxy.io/?" + encodeURIComponent(SWIGGY_API)
-//       );
-//       const json = await response.json();
 
-//       console.log(json);
+  const onlineStatus = useOnlineStatus();
 
-//       setListOfRestaurant(
-//         json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
-//       );
-//       setFilteredRestaurant(
-//         json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
-//       );
-// };
+  if (onlineStatus === false) 
+    return( 
+      <h1>
+        You are offline ! Please check your internet connection
+      </h1>
+    );
 
 
   return listOfRestaurant.length === 0 ? (<Shimmer/>) : (
