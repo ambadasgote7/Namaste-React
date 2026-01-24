@@ -9,8 +9,6 @@ class UserClass extends React.Component {
             location : "Dummy"
         } 
         }
-
-        console.log("Child const")
     }
 
     
@@ -19,8 +17,6 @@ class UserClass extends React.Component {
             //API CALL
             const data = await fetch(" https://api.github.com/users/ReddyDivya");
             const json = await data.json();
-            console.log(json);
-
             this.setState({
                 userInfo : json
             })
